@@ -1,1 +1,1 @@
-{"mongo":"mongodb://localhost:27017/blog"}
+{"mongo":"mongodb://localhost:27017/blog", "environment": "local", "password": "boo"}
