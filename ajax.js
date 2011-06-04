@@ -1,8 +1,10 @@
+$(document).on('dom:loaded', function(){
+
 new Ajax.Request('/application', {
   method: 'get',
   onSuccess: function(response){
     var app = response.responseJSON
-    if(!window.cached || app.authenticated){
+    if(!window.cached){
       if($('logs')){
         new Ajax.Request('/logs', {
           onSuccess: function(response){ 
@@ -21,7 +23,9 @@ new Ajax.Request('/application', {
           method: "get"
         });
       }
-      
+    }
+    
+    if(app.authenticated){
       if($('edit-form')){
         new Ajax.Request('/log', {
           method: "get",
@@ -34,14 +38,22 @@ new Ajax.Request('/application', {
           }
         });
       }
+      
+      new Ajax.Updater('css-form', '/css-form.html', {
+        onComplete: function(){
+          $('css-text').value = buildCSS()
+        }
+      })
     }
     
     if(!window.cached && !app.authenticated){
       setTimeout(function(){
         new Ajax.Request('/cache', {
-          parameters: { head: document.head.innerHTML, body: document.body.innerHTML }
+          parameters: { file: "index.html", body: document.body.innerHTML }
         });  
       }, 1000);
     }
   }
+})
+
 })
