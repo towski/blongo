@@ -48,6 +48,7 @@ mongodb.connect(mongo_config, function(error, db){
         db.collection('logs', function(error, collection){
           collection.update({"_id": db.bson_serializer.ObjectID(match[1])}, {$set: {text: parsed.text}})  
         })
+        fs.unlink("index.html.cached")
         res.writeHead(200, {'Content-Type': 'application/json'})
         res.end()
       });
