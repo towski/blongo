@@ -3,14 +3,14 @@ function submitForm(form) {
   var id = document.location.search.slice(1).toQueryParams().id
   if(id){
     new Ajax.Request('/logs/'+id, {
-      parameters: { text: $('text').value, title: $('title').value, id: $('id').value },
+      parameters: $('edit-form').serialize(true),
       onSuccess: function(){
         document.location.href = location
       }
     })
   }else{
     new Ajax.Request('/logs', {
-      parameters: { text: $('text').value, title: $('title').value },
+      parameters: $('new-form').serialize(true),
       onSuccess: function(){
         document.location.href = "/"
       }
