@@ -12,11 +12,25 @@ new Ajax.Request('/application', {
             var authenticated = data.authenticated
             data.items.each(function(object){
               var text = object.text
-              var div = new Element('div', { 'class': 'log' }).update(text);
-              $('logs').appendChild(div);
+              var div = new Element('div', { 'class': 'log' }).update(text)
+              $('logs').appendChild(div)
               if(authenticated){
-                var a = new Element('a', { 'href': '/edit.html?id=' + object._id  }).update("edit");
-                $('logs').appendChild(a);
+                var a = new Element('a', { 'href': '/edit.html?id=' + object._id  }).update("edit")
+                $('logs').appendChild(a)
+                var a = new Element('a', { 'href': '#' }).update(" destroy")
+                a.on('click', function(){
+                  var decision = confirm("Really destroy?");
+                  if (decision == true){
+                    new Ajax.Request('/destroy', {
+                      method: 'get',
+                      parameters: {id: object._id},
+                      onSuccess: function(){
+                        document.location.href = '/'
+                      }
+                    })
+                  }
+                })
+                $('logs').appendChild(a)
               }
             })
           },

@@ -79,6 +79,12 @@ mongodb.connect(mongo_config, function(error, db){
           res.end(JSON.stringify({authenticated: authenticated, items:items}))
         })
       })
+    } else if(path == "/destroy" && authenticated){
+      res.writeHead(200, {'Content-Type': 'application/json'})
+      db.collection('logs', function(error, collection){
+        collection.remove({"_id": db.bson_serializer.ObjectID(params.id)}, {})
+      })
+      res.end()
     } else if(path == "/cache" && method == "post"){
       var content = ""
       request.addListener('data', function(chunk){
