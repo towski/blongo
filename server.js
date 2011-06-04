@@ -37,7 +37,7 @@ mongodb.connect(mongo_config, function(error, db){
     }
     if(path == "/application"){
       res.writeHead(200, {'Content-Type': 'application/json'})
-      res.end(JSON.stringify({environment: "local", authenticated: authenticated}))
+      res.end(JSON.stringify({environment: config.environment, authenticated: authenticated}))
     } else if((match = path.match(/\/logs\/([a-f0-9]*)$/)) && method == "post" && authenticated){
       var content = ""
       request.addListener('data', function(chunk){
