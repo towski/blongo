@@ -13,6 +13,7 @@ new Ajax.Request('/application', {
             data.items.each(function(object){
               var text = object.text
               var div = new Element('div', { 'class': 'log' }).update(text)
+              div.insert({top: new Element('h2').update(object.title)})
               $('logs').appendChild(div)
               if(authenticated){
                 var a = new Element('a', { 'href': '/edit.html?id=' + object._id  }).update("edit")
@@ -48,7 +49,9 @@ new Ajax.Request('/application', {
             var data = response.responseJSON
             $('text').value = data.text
             $('id').value = data._id
+            $('title').value = data.title
             $('log').update(data.text)
+            $('log').insert({top: new Element('h2').update(data.title)})
           }
         });
       }
