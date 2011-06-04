@@ -86,8 +86,14 @@ mongodb.connect(mongo_config, function(error, db){
       });
       request.addListener('end', function(){
         var parsed = qs.parse(content)
-        fs.open('index.html.cached', 'w+', 0666, function(err, fd){
-          var buffer = new Buffer("<html><head><script type='text/javascript'>var cached = true;</script>" + parsed.head + "</head><body>"+ parsed.body +"</body></html>")
+        fs.open(parsed.file + '.cached', 'w+', 0666, function(err, fd){
+          if(parsed.file.match(/.html$/)){
+            var buffer = new Buffer("<html><head><script type='text/javascript'>var cached = true;</script>" + 
+              fs.readFileSync('head.html') + 
+              "</head><body>" + parsed.body + "</body></html>")
+          } else {
+            var buffer = new Buffer(parsed.body)
+          }
           fs.write(fd, buffer, 0, buffer.length)
         })
         res.writeHead(200, {'Content-Type': 'application/json'})
@@ -100,7 +106,11 @@ mongodb.connect(mongo_config, function(error, db){
             fs.stat("." + path, function(err, stats){
               res.writeHead(200, {'Content-Type': 'text/html'})
               fs.readFile("." + path, function(err, data){
-                res.end(data)
+                if(path.match(/.html$/)){
+                  res.end("<html><head>" + fs.readFileSync('head.html') + "</head><body>" + data + "</body>")
+                } else {
+                  res.end(data)
+                }
               })
             })
           } else {
