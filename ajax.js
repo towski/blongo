@@ -2,7 +2,7 @@ new Ajax.Request('/application', {
   method: 'get',
   onSuccess: function(response){
     var app = response.responseJSON
-    if(app.environment == "local" || !window.cached || app.authenticated){
+    if(!window.cached || app.authenticated){
       if($('logs')){
         new Ajax.Request('/logs', {
           onSuccess: function(response){ 
@@ -36,7 +36,7 @@ new Ajax.Request('/application', {
       }
     }
     
-    if(app.environment != "local" && !window.cached && !app.authenticated){
+    if(!window.cached && !app.authenticated){
       setTimeout(function(){
         new Ajax.Request('/cache', {
           parameters: { head: document.head.innerHTML, body: document.body.innerHTML }
