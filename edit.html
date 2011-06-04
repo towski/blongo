@@ -1,16 +1,13 @@
 <a href='/'>Home</a>
 <div id='log'></div>
-<table>
-  <tr>
-    <td>
-<form id='edit-form' action='/logs' onsubmit='submitForm(); return false;'>
-  <input id='id' name='id' type='hidden'>
-  <p><textarea rows=20 cols=100 id='text' name='content'></textarea></p>
-  <input type='submit'>
-</form>
-</td>
-<td>
-  <div id='css-form'></div>
+<table><tr><td>
+  <form id='edit-form' action='/logs' onsubmit='submitForm(); return false;'>
+    <input id='id' name='id' type='hidden'>
+    <p><textarea rows=20 cols=100 id='text' name='content'></textarea></p>
+    <input type='submit'>
+  </form>
+</td><td>
+  <p id='css-form'></p>
 </td>
 </tr>
 </table>
