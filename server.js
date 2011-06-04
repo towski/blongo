@@ -26,7 +26,7 @@ mongodb.connect(mongo_config, function(error, db){
       }
     }
     var authenticated
-    if(config.password == cookies.password){
+    if(config.password == unescape(cookies.password)){
       authenticated = true
     } else {
       authenticated = false
