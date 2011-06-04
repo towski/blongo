@@ -41,6 +41,8 @@ new Ajax.Request('/application', {
     }
     
     if(app.authenticated){
+      $(document.body).insert("<a class='authenticated' href='/new.html'>new</a>")
+      
       if($('edit-form')){
         new Ajax.Request('/log', {
           method: "get",
@@ -64,9 +66,19 @@ new Ajax.Request('/application', {
     }
     
     if(!window.cached && !app.authenticated){
+      var path = document.location.pathname.slice(1)
+      if(path == ""){
+        var file = "index.html"
+      } else {
+        if(!path.match(/html$/)){
+          var file = path + ".html"
+        } else {
+          var file = path
+        }
+      }
       setTimeout(function(){
         new Ajax.Request('/cache', {
-          parameters: { file: "index.html", body: document.body.innerHTML }
+          parameters: { file: file, body: document.body.innerHTML }
         });  
       }, 1000);
     }
